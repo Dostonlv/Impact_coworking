@@ -1,5 +1,9 @@
 package models
 
+type CreateResponse struct {
+	Message string `json:"message"`
+}
+
 type DefaultError struct {
 	Message string `json:"message"`
 }

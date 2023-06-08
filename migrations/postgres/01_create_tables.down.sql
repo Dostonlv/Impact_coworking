@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS booking;
+DROP TABLE IF EXISTS room;
+DROP TABLE IF EXISTS schema_migrations;
+DROP TYPE IF EXISTS room_type;
