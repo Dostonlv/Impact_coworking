@@ -43,11 +43,8 @@ func (r roomRepo) GetRooms(ctx context.Context, request models.RoomsRequest) (mo
 	}
 	query += ` LIMIT ` + fmt.Sprintf("%v", request.PageSize) + ` OFFSET ` + fmt.Sprintf("%v", request.PageSize*(request.Page-1)) + `;`
 
-	fmt.Println(query)
 	rows, err := r.db.Query(ctx, query)
 	if err != nil {
-		fmt.Println("c")
-		fmt.Println(err)
 		return models.RoomsResponse{}, err
 	}
 	defer rows.Close()
@@ -57,7 +54,6 @@ func (r roomRepo) GetRooms(ctx context.Context, request models.RoomsRequest) (mo
 	for rows.Next() {
 		err := rows.Scan(&room.ID, &room.Name, &room.Type, &room.Capacity)
 		if err != nil {
-			fmt.Println("b")
 			return models.RoomsResponse{}, err
 		}
 		rooms = append(rooms, room)
@@ -66,7 +62,6 @@ func (r roomRepo) GetRooms(ctx context.Context, request models.RoomsRequest) (mo
 	var count int
 	err = r.db.QueryRow(ctx, `SELECT COUNT(*) FROM room;`).Scan(&count)
 	if err != nil {
-		fmt.Println("a")
 		return models.RoomsResponse{}, err
 	}
 

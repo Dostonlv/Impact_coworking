@@ -25,21 +25,19 @@ type RoomsRequest struct {
 	PageSize int    `json:"page_size"`
 }
 
-// CreateRoomRequest ...
-type CreateRoomRequest struct {
-	Name     string `json:"name"`
-	Type     string `json:"type"`
-	Capacity int    `json:"capacity"`
-}
-
 // Resident ...
 type Resident struct {
 	Name string `json:"name"`
 }
 
-// CreateBookingRequest ...
-type CreateBookingRequest struct {
+// BookingRequest ...
+type BookingRequest struct {
 	Resident Resident  `json:"resident"`
 	Start    time.Time `json:"start"`
 	End      time.Time `json:"end"`
+}
+
+// BookingResponse ...
+type BookingResponse struct {
+	Message string `json:"message"`
 }

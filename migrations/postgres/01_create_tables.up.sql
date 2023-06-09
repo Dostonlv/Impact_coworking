@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS booking(
     FOREIGN KEY (room_id) REFERENCES room(id)
 );
 
+INSERT INTO  booking (resident, room_id, period) VALUES ('John', 1, '[2019-01-01 09:00, 2019-01-01 10:00)');
+
 
 INSERT INTO room (name, type, capacity) VALUES ('mytaxi', 'focus', 1);
 INSERT INTO room (name, type, capacity) VALUES ('workly', 'team', 5);

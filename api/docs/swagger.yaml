@@ -1,0 +1,139 @@
+definitions:
+  models.BookingRequest:
+    properties:
+      end:
+        type: string
+      resident:
+        $ref: '#/definitions/models.Resident'
+      start:
+        type: string
+    type: object
+  models.BookingResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  models.DefaultError:
+    properties:
+      error:
+        type: string
+    type: object
+  models.Resident:
+    properties:
+      name:
+        type: string
+    type: object
+  models.Room:
+    properties:
+      capacity:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      type:
+        type: string
+    type: object
+  models.RoomsResponse:
+    properties:
+      count:
+        type: integer
+      page:
+        type: integer
+      page_size:
+        type: integer
+      results:
+        items:
+          $ref: '#/definitions/models.Room'
+        type: array
+    type: object
+info:
+  contact: {}
+paths:
+  /api/rooms:
+    get:
+      consumes:
+      - application/json
+      description: Get List Rooms
+      operationId: get_list_rooms
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: type
+        in: query
+        name: type
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: page_size
+        in: query
+        name: page_size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/models.RoomsResponse'
+      summary: Get List Rooms
+      tags:
+      - Rooms
+  /api/rooms/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get By ID Room
+      operationId: get_by_id_room
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/models.Room'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.DefaultError'
+      summary: Get By ID Room
+      tags:
+      - Rooms
+  /api/rooms/{id}/book:
+    post:
+      consumes:
+      - application/json
+      description: Create Booking
+      operationId: create_booking
+      parameters:
+      - description: CreateBookingRequest
+        in: body
+        name: booking
+        required: true
+        schema:
+          $ref: '#/definitions/models.BookingRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success Request
+          schema:
+            $ref: '#/definitions/models.BookingResponse'
+        "410":
+          description: Gone
+          schema:
+            $ref: '#/definitions/models.DefaultError'
+      summary: Create Booking
+      tags:
+      - Bookings
+swagger: "2.0"

@@ -9,8 +9,9 @@ import (
 )
 
 type Store struct {
-	db   *pgxpool.Pool
-	room storage.RoomRepoI
+	db      *pgxpool.Pool
+	room    storage.RoomRepoI
+	booking storage.BookingRepoI
 }
 
 func NewPostgres(ctx context.Context, cfg config.Config) (storage.StorageI, error) {
@@ -47,4 +48,11 @@ func (s *Store) Room() storage.RoomRepoI {
 		s.room = NewRoomRepo(s.db)
 	}
 	return s.room
+}
+
+func (s *Store) Booking() storage.BookingRepoI {
+	if s.booking == nil {
+		s.booking = NewBookingRoomRepo(s.db)
+	}
+	return s.booking
 }
