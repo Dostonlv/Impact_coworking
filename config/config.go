@@ -30,8 +30,8 @@ type Config struct {
 
 	PostgresMaxConnections int32
 
-	DefaultOffset int
-	DefaultLimit  int
+	DefaultPage     int
+	DefaultPageSize int
 }
 
 // Load ...
@@ -48,8 +48,8 @@ func Load() Config {
 	config.PostgresPassword = cast.ToString(getOrReturnDefaultValue("POSTGRES_PASSWORD", "dostonlv"))
 	config.PostgresDatabase = cast.ToString(getOrReturnDefaultValue("POSTGRES_DATABASE", "impactt"))
 	config.PostgresMaxConnections = cast.ToInt32(getOrReturnDefaultValue("POSTGRES_MAX_CONNECTIONS", 30))
-	config.DefaultOffset = 1
-	config.DefaultLimit = 10
+	config.DefaultPage = 1
+	config.DefaultPageSize = 10
 	config.ServerHost = "localhost"
 	config.ServerPort = ":8080"
 

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"Impact/config"
 	"Impact/models"
 	"context"
 	"github.com/gin-gonic/gin"
@@ -49,7 +50,13 @@ func (h *Handler) GetByIDRoom(c *gin.Context) {
 // @Success 200 {object} models.RoomsResponse "Success Request"
 func (h *Handler) GetRoomsList(c *gin.Context) {
 	page, _ := strconv.Atoi(c.Query("page"))
+	if page == 0 {
+		page = config.Load().DefaultPage
+	}
 	pageSize, _ := strconv.Atoi(c.Query("page_size"))
+	if pageSize == 0 {
+		pageSize = config.Load().DefaultPageSize
+	}
 	search := c.Query("search")
 	roomType := c.Query("type")
 	resp, err := h.storages.Room().GetRooms(context.Background(), models.RoomsRequest{

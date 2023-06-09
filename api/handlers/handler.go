@@ -47,7 +47,7 @@ func (h *Handler) handlerResponse(c *gin.Context, path string, code int, message
 
 func (h *Handler) getOffsetQuery(offset string) (int, error) {
 	if len(offset) <= 0 {
-		return h.cfg.DefaultOffset, nil
+		return h.cfg.DefaultPage, nil
 	}
 
 	return strconv.Atoi(offset)
@@ -56,7 +56,7 @@ func (h *Handler) getOffsetQuery(offset string) (int, error) {
 func (h *Handler) getLimitQuery(limit string) (int, error) {
 
 	if len(limit) <= 0 {
-		return h.cfg.DefaultLimit, nil
+		return h.cfg.DefaultPageSize, nil
 	}
 
 	return strconv.Atoi(limit)
