@@ -23,21 +23,21 @@ func (h *Handler) BookingRoom(c *gin.Context) {
 	id := c.Param("id")
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
-		fmt.Println("a")
 		c.JSON(http.StatusGone, models.DefaultError{Message: "uzr, siz tanlagan vaqtda xona band"})
 		return
 	}
-
+	//startTime := from.Format("2006-01-02 15:04")
+	//endTime := to.Format("2006-01-02 15:04")
 	var req models.BookingRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		fmt.Println("b")
+		fmt.Println(req)
 		c.JSON(http.StatusGone, models.DefaultError{Message: "uzr, siz tanlagan vaqtda xona band"})
 		return
 	}
 
 	resp, err := h.storages.Booking().BookRoom(c.Request.Context(), idInt, req)
 	if err != nil {
-		fmt.Println("c")
 		c.JSON(http.StatusGone, models.DefaultError{Message: "uzr, siz tanlagan vaqtda xona band"})
 		return
 	}

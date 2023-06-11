@@ -8,7 +8,6 @@ import (
 	"github.com/lib/pq"
 	_ "github.com/lib/pq"
 	"log"
-	"time"
 )
 
 type bookingRoomRepo struct {
@@ -27,10 +26,7 @@ func (b bookingRoomRepo) BookRoom(ctx context.Context, roomId int, request model
 		return models.BookingResponse{}, err
 	}
 	if check {
-		from := request.Start.Format("2006-01-02 15:04")
-		to := request.End.Format("2006-01-02 15:04")
-		fmt.Println(from, to)
-		period := `[` + from + `, ` + to + `)`
+		period := `[` + request.Start + `, ` + request.End + `)`
 		var boookingId int
 		query := `INSERT INTO booking (room_id, resident, period) VALUES ($1, $2, $3) RETURNING id;`
 		err := b.db.QueryRow(ctx, query, roomId, request.Resident.Name, period).Scan(&boookingId)
@@ -43,10 +39,7 @@ func (b bookingRoomRepo) BookRoom(ctx context.Context, roomId int, request model
 	return models.BookingResponse{}, nil
 }
 
-func (b bookingRoomRepo) Check(ctx context.Context, from, to time.Time) (bool, error) {
-	startTime := from.Format("2006-01-02 15:04")
-	endTime := to.Format("2006-01-02 15:04")
-	fmt.Println(startTime, endTime)
+func (b bookingRoomRepo) Check(ctx context.Context, from, to string) (bool, error) {
 	roomID := 2
 
 	query := `
@@ -54,6 +47,7 @@ func (b bookingRoomRepo) Check(ctx context.Context, from, to time.Time) (bool, e
 		FROM booking
 		WHERE room_id = $1 AND period && tsrange($2, $3, '[)')
 	`
+
 	rows, err := b.db.Query(ctx, query, roomID, from, to)
 	if err != nil {
 		return false, err

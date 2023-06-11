@@ -39,7 +39,7 @@ func main() {
 
 	r := gin.New()
 
-	// call logger
+	//call logger
 	r.Use(gin.Recovery(), gin.Logger())
 
 	api.NewApi(r, &cfg, pgStore, log)
@@ -50,8 +50,8 @@ func main() {
 		return
 	}
 
-	//f := time.Date(2023, 7, 8, 17, 0, 0, 0, time.UTC)
-	//t := time.Date(2023, 9, 9, 17, 54, 0, 0, time.UTC)
+	//f := time.Date(2024, 7, 8, 17, 0, 0, 0, time.UTC)
+	//t := time.Date(2024, 9, 9, 17, 54, 0, 0, time.UTC)
 	//a, err := pgStore.Booking().Check(context.Background(), f, t)
 	//if err != nil {
 	//	log.Fatal("Error listening server: ", logger.Error(err))

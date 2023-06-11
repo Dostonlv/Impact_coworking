@@ -1,7 +1,5 @@
 package models
 
-import "time"
-
 type Room struct {
 	ID       int    `json:"id"`
 	Name     string `json:"name"`
@@ -32,9 +30,9 @@ type Resident struct {
 
 // BookingRequest ...
 type BookingRequest struct {
-	Resident Resident  `json:"resident"`
-	Start    time.Time `json:"start"`
-	End      time.Time `json:"end"`
+	Resident Resident `json:"resident"`
+	Start    string   `json:"start"`
+	End      string   `json:"end"`
 }
 
 // BookingResponse ...
