@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"Impact/models"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -22,18 +23,21 @@ func (h *Handler) BookingRoom(c *gin.Context) {
 	id := c.Param("id")
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
+		fmt.Println("a")
 		c.JSON(http.StatusGone, models.DefaultError{Message: "uzr, siz tanlagan vaqtda xona band"})
 		return
 	}
 
 	var req models.BookingRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
+		fmt.Println("b")
 		c.JSON(http.StatusGone, models.DefaultError{Message: "uzr, siz tanlagan vaqtda xona band"})
 		return
 	}
 
 	resp, err := h.storages.Booking().BookRoom(c.Request.Context(), idInt, req)
 	if err != nil {
+		fmt.Println("c")
 		c.JSON(http.StatusGone, models.DefaultError{Message: "uzr, siz tanlagan vaqtda xona band"})
 		return
 	}

@@ -1,12 +1,12 @@
 package logger
 
 import (
+	"golang.org/x/term"
 	"os"
 
 	"github.com/streamingfast/logging"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"golang.org/x/crypto/ssh/terminal"
 )
 
 func newZapLogger(namespace, level string) *zap.Logger {
@@ -23,7 +23,8 @@ func newZapLogger(namespace, level string) *zap.Logger {
 	logStdErrorWriter := zapcore.Lock(os.Stderr)
 	logStdInfoWriter := zapcore.Lock(os.Stdout)
 
-	isTTY := terminal.IsTerminal(int(os.Stderr.Fd()))
+	fd := int(os.Stderr.Fd())
+	isTTY := term.IsTerminal(fd)
 
 	core := zapcore.NewTee(
 		zapcore.NewCore(logging.NewEncoder(4, isTTY), logStdErrorWriter, highPriority),
