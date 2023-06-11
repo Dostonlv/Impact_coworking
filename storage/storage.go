@@ -3,6 +3,7 @@ package storage
 import (
 	"Impact/models"
 	"context"
+	"time"
 )
 
 // StorageI ...
@@ -21,4 +22,5 @@ type RoomRepoI interface {
 // BookingRepoI ...
 type BookingRepoI interface {
 	BookRoom(ctx context.Context, roomId int, request models.BookingRequest) (models.BookingResponse, error)
+	Check(ctx context.Context, from, to time.Time) (bool, error)
 }

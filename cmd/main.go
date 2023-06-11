@@ -1,12 +1,12 @@
 package main
 
 import (
-	"Impact/api"
 	"Impact/config"
 	"Impact/pkg/logger"
 	"Impact/storage/postgres"
 	"context"
-	"github.com/gin-gonic/gin"
+	"fmt"
+	"time"
 )
 
 func main() {
@@ -32,18 +32,27 @@ func main() {
 	}
 	defer pgStore.CloseDB()
 
-	r := gin.New()
+	//r := gin.New()
+	//
+	//// call logger
+	//r.Use(gin.Recovery(), gin.Logger())
+	//
+	//api.NewApi(r, &cfg, pgStore, log)
+	//
+	//err = r.Run(cfg.ServerHost + cfg.ServerPort)
+	//if err != nil {
+	//	log.Panic("Error listening server: ", logger.Error(err))
+	//	return
+	//}
 
-	// call logger
-	r.Use(gin.Recovery(), gin.Logger())
-
-	api.NewApi(r, &cfg, pgStore, log)
-
-	err = r.Run(cfg.ServerHost + cfg.ServerPort)
+	f := time.Date(2023, 6, 8, 17, 0, 0, 0, time.UTC)
+	t := time.Date(2023, 6, 9, 17, 54, 0, 0, time.UTC)
+	a, err := pgStore.Booking().Check(context.Background(), f, t)
 	if err != nil {
-		log.Panic("Error listening server: ", logger.Error(err))
+		log.Fatal("Error listening server: ", logger.Error(err))
 		return
 	}
+	fmt.Println(a)
 
 	//booking, err := pgStore.Booking().BookRoom(context.Background(), 2, models.BookingRequest{
 	//	Resident: models.Resident{Name: "Abdulloh"},
