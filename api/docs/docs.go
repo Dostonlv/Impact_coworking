@@ -121,6 +121,13 @@ const docTemplate = `{
                 "operationId": "create_booking",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "CreateBookingRequest",
                         "name": "booking",
                         "in": "body",

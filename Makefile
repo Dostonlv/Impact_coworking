@@ -1,4 +1,4 @@
-CURRENT_DIR=$(shell pwd)
+`CURRENT_DIR=$(shell pwd)
 
 APP=$(shell basename ${CURRENT_DIR})
 APP_CMD_DIR=${CURRENT_DIR}/cmd

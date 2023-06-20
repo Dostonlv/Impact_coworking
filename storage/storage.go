@@ -5,6 +5,8 @@ import (
 	"context"
 )
 
+// for review
+
 // StorageI ...
 type StorageI interface {
 	Room() RoomRepoI
@@ -21,5 +23,9 @@ type RoomRepoI interface {
 // BookingRepoI ...
 type BookingRepoI interface {
 	BookRoom(ctx context.Context, roomId int, request models.BookingRequest) (models.BookingResponse, error)
-	Check(ctx context.Context, from, to string) (bool, error)
+	Check(ctx context.Context, check models.Check) (bool, error)
+	// get booking  rooms by roomId
+	GetBookingRooms(ctx context.Context, roomId int) ([]models.GetBookingRoomsResponse, error)
+	// get Booking rooms time and parse data and time then return available rooms
+	//GetAvailableRooms(ctx context.Context, request models.AvailableRooms) ([]models.AvailableRooms, error)
 }

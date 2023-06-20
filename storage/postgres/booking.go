@@ -21,7 +21,12 @@ func NewBookingRoomRepo(db *pgxpool.Pool) *bookingRoomRepo {
 }
 
 func (b bookingRoomRepo) BookRoom(ctx context.Context, roomId int, request models.BookingRequest) (models.BookingResponse, error) {
-	check, err := b.Check(ctx, request.Start, request.End)
+	checkker := models.Check{
+		RoomID: roomId,
+		Start:  request.Start,
+		End:    request.End,
+	}
+	check, err := b.Check(ctx, checkker)
 	if err != nil {
 		return models.BookingResponse{}, err
 	}
@@ -39,8 +44,7 @@ func (b bookingRoomRepo) BookRoom(ctx context.Context, roomId int, request model
 	return models.BookingResponse{}, nil
 }
 
-func (b bookingRoomRepo) Check(ctx context.Context, from, to string) (bool, error) {
-	roomID := 2
+func (b bookingRoomRepo) Check(ctx context.Context, check models.Check) (bool, error) {
 
 	query := `
 		SELECT id, resident, period
@@ -48,7 +52,7 @@ func (b bookingRoomRepo) Check(ctx context.Context, from, to string) (bool, erro
 		WHERE room_id = $1 AND period && tsrange($2, $3, '[)')
 	`
 
-	rows, err := b.db.Query(ctx, query, roomID, from, to)
+	rows, err := b.db.Query(ctx, query, check.RoomID, check.Start, check.End)
 	if err != nil {
 		return false, err
 	}
@@ -72,4 +76,29 @@ func (b bookingRoomRepo) Check(ctx context.Context, from, to string) (bool, erro
 		return false, err
 	}
 	return true, nil
+}
+
+func (b bookingRoomRepo) GetBookingRooms(ctx context.Context, roomId int) ([]models.GetBookingRoomsResponse, error) {
+	query := "SELECT * FROM booking WHERE room_id=$1"
+	var bookingRooms []models.GetBookingRoomsResponse
+	var bookingRoom models.GetBookingRooms
+	var bookingRooma models.GetBookingRoomsResponse
+
+	rows, err := b.db.Query(ctx, query, roomId)
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		err := rows.Scan(&bookingRoom.ID, &bookingRoom.Resident, &bookingRoom.RoomID, &bookingRoom.Period)
+		bookingRooma.To = bookingRoom.Period.Upper.Time.Format("2006-01-02 15:04")
+		bookingRooma.From = bookingRoom.Period.Lower.Time.Format("2006-01-02 15:04")
+		if err != nil {
+			return nil, err
+		}
+		bookingRooms = append(bookingRooms, bookingRooma)
+	}
+	return bookingRooms, nil
 }

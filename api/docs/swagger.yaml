@@ -116,6 +116,11 @@ paths:
       description: Create Booking
       operationId: create_booking
       parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
       - description: CreateBookingRequest
         in: body
         name: booking
