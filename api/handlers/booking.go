@@ -10,6 +10,7 @@ import (
 
 // Create Booking godoc
 // @ID create_booking
+// @Security ApiKeyAuth
 // @Router /api/rooms/{id}/book [POST]
 // @Summary Create Booking
 // @Description Create Booking

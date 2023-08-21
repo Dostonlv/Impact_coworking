@@ -12,6 +12,7 @@ import (
 // Get By ID Room godoc
 // @ID get_by_id_room
 // @Router /api/rooms/{id} [GET]
+// @Security ApiKeyAuth
 // @Summary Get By ID Room
 // @Description Get By ID Room
 // @Tags Rooms

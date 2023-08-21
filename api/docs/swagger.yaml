@@ -49,6 +49,9 @@ definitions:
     type: object
 info:
   contact: {}
+  description: This is a api gateway
+  title: Swagger Example API
+  version: "1.0"
 paths:
   /api/rooms:
     get:
@@ -106,6 +109,8 @@ paths:
           description: Not found
           schema:
             $ref: '#/definitions/models.DefaultError'
+      security:
+      - ApiKeyAuth: []
       summary: Get By ID Room
       tags:
       - Rooms
@@ -133,7 +138,14 @@ paths:
           description: Gone
           schema:
             $ref: '#/definitions/models.DefaultError'
+      security:
+      - ApiKeyAuth: []
       summary: Create Booking
       tags:
       - Bookings
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
